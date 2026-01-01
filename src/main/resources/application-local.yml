@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: manafoodorder
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/db_manafood_order?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: senha123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+# Logging para desenvolvimento
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    br.com.manafood: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+product:
+  service:
+    url: http://localhost:8081
