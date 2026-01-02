@@ -32,6 +32,7 @@
 		<mockk.version>1.13.13</mockk.version>
 		<cucumber.version>7.18.1</cucumber.version>
 		<testcontainers.version>1.19.3</testcontainers.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 
 		<!-- SonarQube Properties -->
 		<sonar.organization>mana-food</sonar.organization>
@@ -103,6 +104,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
+		<!-- OpenFeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
 		<!-- MockK para Kotlin (antes do spring-boot-starter-test) -->
 		<dependency>
@@ -186,6 +193,18 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

@@ -26,6 +26,7 @@ logging:
     org.springframework.web: ${LOGGING_LEVEL_SPRING:INFO}
     org.hibernate.SQL: ${LOGGING_LEVEL_SQL:INFO}
     br.com.manafood: ${LOGGING_LEVEL_MANAFOOD:DEBUG}
+    br.com.manafood.manafoodorder.infrastructure.client: DEBUG
 
 management:
   endpoints:
