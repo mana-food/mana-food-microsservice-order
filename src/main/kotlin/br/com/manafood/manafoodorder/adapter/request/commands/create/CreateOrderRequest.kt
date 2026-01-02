@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotNull
 
 data class CreateOrderRequest(
     @field:NotNull val paymentMethod: Int,
-//    val products: List<>
+    @field:NotNull val products: List<OrderProductRequest>
 )

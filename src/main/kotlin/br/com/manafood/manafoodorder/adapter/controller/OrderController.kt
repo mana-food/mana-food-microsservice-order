@@ -1,5 +1,19 @@
 package br.com.manafood.manafoodorder.adapter.controller
 
+import br.com.manafood.manafoodorder.adapter.mapper.OrderMapper
+import br.com.manafood.manafoodorder.adapter.request.commands.create.CreateOrderRequest
+import br.com.manafood.manafoodorder.adapter.request.commands.update.UpdateOrderRequest
+import br.com.manafood.manafoodorder.adapter.response.OrderResponse
+import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderUseCase
+import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderUseCase
+import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderUseCase
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getall.GetAllOrdersQuery
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getall.GetAllOrdersUseCase
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getbyid.GetOrderByIdQuery
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getbyid.GetOrderByIdUseCase
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getreadyforkitchen.GetOrdersReadyForKitchenQuery
+import br.com.manafood.manafoodorder.application.usecase.order.queries.getreadyforkitchen.GetOrdersReadyForKitchenUseCase
+import br.com.manafood.manafoodorder.domain.common.Paged
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +33,9 @@ class OrderController(
     private val updateOrderUseCase: UpdateOrderUseCase,
     private val deleteOrderUseCase: DeleteOrderUseCase,
     private val getOrderByIdUseCase: GetOrderByIdUseCase,
-    private val getAllOrdersUseCase: GetAllOrdersUseCase
+    private val getAllOrdersUseCase: GetAllOrdersUseCase,
+    private val getOrdersReadyForKitchenUseCase: GetOrdersReadyForKitchenUseCase
+
 ) {
 
     @PostMapping
@@ -66,6 +82,15 @@ class OrderController(
         @RequestParam(defaultValue = "10") pageSize: Int
     ): ResponseEntity<Paged<OrderResponse>> {
         val orders = getAllOrdersUseCase.execute(GetAllOrdersQuery(page, pageSize))
+        return ResponseEntity.ok(OrderMapper.toResponsePaged(orders))
+    }
+
+    @GetMapping("/ready")
+    fun getOrdersReadyForKitchen(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") pageSize: Int
+    ): ResponseEntity<Paged<OrderResponse>> {
+        val orders = getAllOrdersUseCase.execute(GetOrdersReadyForKitchenQuery(page, pageSize))
         return ResponseEntity.ok(OrderMapper.toResponsePaged(orders))
     }
 }
