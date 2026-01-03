@@ -90,7 +90,7 @@ class OrderController(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "10") pageSize: Int
     ): ResponseEntity<Paged<OrderResponse>> {
-        val orders = getAllOrdersUseCase.execute(GetOrdersReadyForKitchenQuery(page, pageSize))
+        val orders = getOrdersReadyForKitchenUseCase.execute(GetOrdersReadyForKitchenQuery(page, pageSize))
         return ResponseEntity.ok(OrderMapper.toResponsePaged(orders))
     }
 }
