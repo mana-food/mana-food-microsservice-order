@@ -1,6 +1,7 @@
 package br.com.manafood.manafoodorder.infrastructure.client
 
-import br.com.manafood.manafoodorder.application.gateway.ProductResponse
+import br.com.manafood.manafoodorder.application.dto.ProductDTO
+import br.com.manafood.manafoodorder.infrastructure.client.dto.ProductApiResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,20 +19,10 @@ import java.util.UUID
 )
 interface ProductFeignClient {
 
-    /**
-     * Get product by ID from Product Service
-     * @param id Product UUID
-     * @return ProductResponse
-     */
-    @GetMapping("/api/v1/products/{id}")
-    fun getProductById(@PathVariable id: UUID): ProductResponse
+    @GetMapping("/api/products/{id}")
+    fun getProductById(@PathVariable id: UUID): ProductApiResponse
 
-    /**
-     * Check if product exists
-     * @param id Product UUID
-     * @return Boolean
-     */
-    @GetMapping("/api/v1/products/{id}/exists")
+    @GetMapping("/api/products/{id}/exists")
     fun existsById(@PathVariable id: UUID): Boolean
 }
 

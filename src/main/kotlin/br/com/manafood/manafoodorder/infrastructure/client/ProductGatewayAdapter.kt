@@ -1,53 +1,36 @@
 package br.com.manafood.manafoodorder.infrastructure.client
 
+import br.com.manafood.manafoodorder.application.dto.ProductDTO
 import br.com.manafood.manafoodorder.application.gateway.ProductGateway
-import br.com.manafood.manafoodorder.application.gateway.ProductResponse
 import br.com.manafood.manafoodorder.domain.exception.ProductNotFoundException
+import br.com.manafood.manafoodorder.infrastructure.client.mapper.ProductApiResponseMapper
 import feign.FeignException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.UUID
 
-/**
- * Adapter that implements ProductGateway using Feign Client.
- * This adapter connects the application layer (ProductGateway port)
- * to the infrastructure layer (ProductFeignClient).
- */
 @Component
 class ProductGatewayAdapter(
     private val productFeignClient: ProductFeignClient
 ) : ProductGateway {
 
-    private val logger = LoggerFactory.getLogger(ProductGatewayAdapter::class.java)
-
-    override fun getProductById(productId: UUID): ProductResponse {
+    override fun getProductById(productId: UUID): ProductDTO {
         return try {
-            logger.info("Fetching product with id: $productId from Product Service")
-            val product = productFeignClient.getProductById(productId)
-            logger.info("Product found: ${product.name}")
-            product
+            logger.info("$PREFIX Obtendo produto com id: [$productId] de Serviço de Produto")
+            val productResponse = productFeignClient.getProductById(productId)
+            logger.info("$PREFIX Produto encontrado: [${productResponse.name}]")
+            return ProductApiResponseMapper.toApplicationDTO(productResponse)
         } catch (e: FeignException.NotFound) {
-            logger.error("Product with id $productId not found in Product Service")
+            logger.error("$PREFIX Produto com o id $productId não encontrado de Serviço de Produto", e)
             throw ProductNotFoundException(productId)
         } catch (e: FeignException) {
-            logger.error("Error communicating with Product Service: ${e.message}", e)
-            throw RuntimeException("Error fetching product from Product Service", e)
+            logger.error("$PREFIX Erro na comunicação com o Serviço de Produto: ${e.message}", e)
+            throw RuntimeException("$PREFIX Obtenção de erro do produto a partir do Serviço de Produto", e)
         }
     }
 
-    override fun existsById(productId: UUID): Boolean {
-        return try {
-            logger.info("Checking if product with id: $productId exists")
-            val exists = productFeignClient.existsById(productId)
-            logger.info("Product $productId exists: $exists")
-            exists
-        } catch (e: FeignException.NotFound) {
-            logger.info("Product with id $productId does not exist")
-            false
-        } catch (e: FeignException) {
-            logger.error("Error checking product existence: ${e.message}", e)
-            throw RuntimeException("Error checking product existence", e)
-        }
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+        private const val PREFIX = "[PRODUCT_GATEWAY_ADAPTER]"
     }
 }
-
