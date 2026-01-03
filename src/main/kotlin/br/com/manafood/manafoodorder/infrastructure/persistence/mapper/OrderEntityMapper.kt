@@ -9,20 +9,26 @@ import org.springframework.data.domain.Page
 
 object OrderEntityMapper {
 
-    fun toEntity(domain: Order): OrderJpaEntity =
-        OrderJpaEntity(
+    fun toEntity(domain: Order): OrderJpaEntity {
+        val orderJpa = OrderJpaEntity(
             id = domain.id,
             orderConfirmationTime = domain.orderConfirmationTime,
             paymentMethod = domain.paymentMethod.code,
             orderStatus = domain.orderStatus.code,
             totalAmount = domain.totalAmount,
-            products = OrderProductEntityMapper.toEntityList(domain.products),
+            products = mutableListOf(),
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
             createdBy = domain.createdBy,
             updatedBy = domain.updatedBy,
             deleted = domain.deleted
         )
+
+        val productsJpa = OrderProductEntityMapper.toEntityList(domain.products, orderJpa)
+        orderJpa.products = productsJpa
+
+        return orderJpa
+    }
 
     fun toDomain(jpa: OrderJpaEntity): Order =
         Order(

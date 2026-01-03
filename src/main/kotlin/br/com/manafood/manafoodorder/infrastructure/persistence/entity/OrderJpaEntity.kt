@@ -34,7 +34,7 @@ class OrderJpaEntity(
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
-    val products: List<OrderProductJpaEntity> = emptyList(),
+    var products: MutableList<OrderProductJpaEntity> = mutableListOf(),
 
     createdAt: LocalDateTime,
     createdBy: UUID,

@@ -1,19 +1,20 @@
 package br.com.manafood.manafoodorder.infrastructure.persistence.mapper
 
 import br.com.manafood.manafoodorder.domain.model.OrderProduct
+import br.com.manafood.manafoodorder.infrastructure.persistence.entity.OrderJpaEntity
 import br.com.manafood.manafoodorder.infrastructure.persistence.entity.OrderProductJpaEntity
 
 import java.util.UUID
 
 object OrderProductEntityMapper {
 
-    fun toEntityList(domain: List<OrderProduct>): List<OrderProductJpaEntity> =
+    fun toEntityList(domain: List<OrderProduct>, orderJpa: OrderJpaEntity): MutableList<OrderProductJpaEntity> =
         domain.map { item ->
             OrderProductJpaEntity(
                 id = UUID.randomUUID(),
                 productId = item.productId,
                 quantity = item.quantity,
-                order = item.orderId, // TODO - resolver amanhã
+                order = orderJpa,
                 productName = item.productName,
                 unitPrice = item.unitPrice,
                 subtotal = item.subtotal,
@@ -23,7 +24,7 @@ object OrderProductEntityMapper {
                 updatedBy = item.updatedBy,
                 deleted = item.deleted
             )
-        }
+        }.toMutableList()
 
     fun toDomainList(jpas: List<OrderProductJpaEntity>): List<OrderProduct> =
         jpas.map { jpa ->
