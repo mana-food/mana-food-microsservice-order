@@ -1,5 +1,7 @@
 package br.com.manafood.manafoodorder.infrastructure.config
 
+import br.com.manafood.manafoodorder.application.factory.OrderProductFactory
+import br.com.manafood.manafoodorder.application.service.ProductValidationService
 import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderUseCase
@@ -12,12 +14,14 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class OrderUseCaseConfig(
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val productValidationService: ProductValidationService,
+    private val orderProductFactory: OrderProductFactory
 ) {
 
     @Bean
     fun createOrderUseCase(): CreateOrderUseCase {
-        return CreateOrderUseCase(orderRepository)
+        return CreateOrderUseCase(orderRepository, productValidationService, orderProductFactory)
     }
 
     @Bean

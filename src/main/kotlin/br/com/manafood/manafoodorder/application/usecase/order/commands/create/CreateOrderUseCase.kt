@@ -31,11 +31,7 @@ class CreateOrderUseCase(
             val orderWithTotal = order.calculateTotal()
             val savedOrder = orderRepository.save(orderWithTotal)
             logger.info(
-                "$PREFIX Pedido criado com sucesso - ID: ${savedOrder.id}, total: R$ ${
-                    savedOrder.totalAmount.setScale(
-                        2
-                    )
-                }"
+                "$PREFIX Pedido criado com sucesso - ID: ${savedOrder.id}, total: R$ ${savedOrder.totalAmount.setScale(2)}"
             )
             return savedOrder
         } catch (ex: DataAccessException) {

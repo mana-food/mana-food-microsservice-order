@@ -4,5 +4,6 @@ import java.util.UUID
 
 data class UpdateOrderCommand(
     val id: UUID,
-    val updatedBy: UUID
+    val updatedBy: UUID,
+    val orderStatus: Int
 )
