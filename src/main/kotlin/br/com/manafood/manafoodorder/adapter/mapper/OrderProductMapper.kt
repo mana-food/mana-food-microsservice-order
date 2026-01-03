@@ -6,7 +6,7 @@ import br.com.manafood.manafoodorder.application.usecase.order.commands.create.C
 import br.com.manafood.manafoodorder.domain.model.OrderProduct
 
 object OrderProductMapper {
-    fun toCreateCommand(requestList: List<OrderProductRequest>) =
+    fun toCreateCommandList(requestList: List<OrderProductRequest>) =
         requestList.map { request ->
             CreateOrderProductCommand(
                 productId = request.productId,
@@ -14,7 +14,7 @@ object OrderProductMapper {
             )
         }
 
-    fun toResponse(orderProducts: List<OrderProduct>): List<OrderProductResponse> =
+    fun toResponseList(orderProducts: List<OrderProduct>): List<OrderProductResponse> =
         orderProducts.map { orderProduct ->
             OrderProductResponse(
                 productId = orderProduct.productId,

@@ -17,7 +17,7 @@ object OrderMapper {
         CreateOrderCommand(
             createdBy = createdBy,
             paymentMethod = request.paymentMethod,
-            products = OrderProductMapper.toCreateCommand(request.products)
+            products = OrderProductMapper.toCreateCommandList(request.products)
         )
 
     fun toUpdateCommand(request: UpdateOrderRequest, updatedBy: UUID) =
@@ -38,7 +38,7 @@ object OrderMapper {
             orderStatus = order.orderStatus.code,
             totalAmount = order.totalAmount,
             paymentMethod = order.paymentMethod.code,
-            products = OrderProductMapper.toResponse(order.products),
+            products = OrderProductMapper.toResponseList(order.products),
             createdAt = order.createdAt,
             updatedAt = order.updatedAt
         )

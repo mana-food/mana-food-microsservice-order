@@ -13,7 +13,7 @@ import java.util.UUID
 @Entity
 @Table(name = "order_product")
 class OrderProductJpaEntity(
-    id: UUID = UUID.randomUUID(),
+    id: UUID,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
