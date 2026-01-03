@@ -1,7 +1,12 @@
 package br.com.manafood.manafoodorder.infrastructure.persistence.entity
 
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -11,7 +16,25 @@ class OrderJpaEntity(
 
     id: UUID,
 
-//    TODO: adicionar os atributos da entidade Order
+    @Column(name = "order_confirmation_time")
+    val orderConfirmationTime: LocalDateTime? = null,
+
+    @Column(nullable = false, name = "order_status")
+    val orderStatus: Int,
+
+    @Column(nullable = false, name = "total_amount")
+    val totalAmount: BigDecimal,
+
+    @Column(nullable = false, name = "payment_method")
+    val paymentMethod: Int,
+
+    @OneToMany(
+        mappedBy = "order",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
+    val products: List<OrderProductJpaEntity> = emptyList(),
 
     createdAt: LocalDateTime,
     createdBy: UUID,
