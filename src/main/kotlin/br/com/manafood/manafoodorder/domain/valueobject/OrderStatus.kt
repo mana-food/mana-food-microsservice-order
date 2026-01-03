@@ -6,5 +6,11 @@ enum class OrderStatus(val code: Int) {
     PREPARING(3),
     READY(4),
     FINISHED(5),
-    REJECTED(6)
+    REJECTED(6);
+
+    companion object {
+        fun fromCode(code: Int): OrderStatus =
+            OrderStatus.entries.find { it.code == code }
+                ?: throw IllegalArgumentException("Status do pedido com código $code não encontrado")
+    }
 }
