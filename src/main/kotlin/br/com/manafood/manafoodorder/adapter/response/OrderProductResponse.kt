@@ -1,3 +1,9 @@
 package br.com.manafood.manafoodorder.adapter.response
 
-data class OrderProductResponse()
+import java.math.BigDecimal
+import java.util.UUID
+
+data class OrderProductResponse(
+    val productId: UUID,
+    val quantity: BigDecimal
+)

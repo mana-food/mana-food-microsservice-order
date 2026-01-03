@@ -7,6 +7,7 @@ import br.com.manafood.manafoodorder.domain.model.Order
 import br.com.manafood.manafoodorder.domain.model.OrderProduct
 import br.com.manafood.manafoodorder.domain.repository.OrderRepository
 import br.com.manafood.manafoodorder.domain.valueobject.OrderStatus
+import br.com.manafood.manafoodorder.domain.valueobject.PaymentMethod.Companion.fromCode
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -31,9 +32,6 @@ class CreateOrderUseCase(
     private val productValidationService: ProductValidationService,
     private val orderProductFactory: OrderProductFactory
 ) {
-
-    private val logger = LoggerFactory.getLogger(CreateOrderUseCase::class.java)
-
     /**
      * Executes the order creation use case.
      *
@@ -41,7 +39,7 @@ class CreateOrderUseCase(
      * @return The created Order entity
      */
     fun execute(command: CreateOrderCommand): Order {
-        logger.info("Creating order for user: ${command.createdBy}")
+        logger.info("$PREFIX Iniciando criação do pedido pelo usuário: ${command.createdBy}")
 
         // Generate order ID first (needed for creating order products)
         val orderId = UUID.randomUUID()
@@ -71,11 +69,11 @@ class CreateOrderUseCase(
      * @return List of validated OrderProduct entities
      */
     private fun createOrderProducts(
-        productRequests: List<OrderProductRequest>,
+        productCommands: List<CreateOrderProductCommand>,
         createdBy: UUID,
         orderId: UUID
     ): List<OrderProduct> {
-        return productRequests.map { request ->
+        return productCommands.map { request ->
             // Validate product (throws exception if invalid)
             val product = productValidationService.validateAndGetProduct(request.productId)
 
@@ -107,8 +105,13 @@ class CreateOrderUseCase(
             orderConfirmationTime = null,
             orderStatus = OrderStatus.CREATED,
             totalAmount = BigDecimal.ZERO,
-            paymentMethod = command.paymentMethod,
+            paymentMethod = fromCode(command.paymentMethod),
             products = orderProducts
         )
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+        private const val PREFIX = "[CREATE_ORDER_USE_CASE]"
     }
 }
