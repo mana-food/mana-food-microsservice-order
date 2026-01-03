@@ -3,7 +3,6 @@ package br.com.manafood.manafoodorder.adapter.mapper
 import br.com.manafood.manafoodorder.adapter.request.commands.create.CreateOrderRequest
 import br.com.manafood.manafoodorder.adapter.request.commands.update.UpdateOrderRequest
 import br.com.manafood.manafoodorder.adapter.response.OrderResponse
-import br.com.manafood.manafoodorder.application.dto.CreateOrderCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderCommand
@@ -13,11 +12,12 @@ import java.util.UUID
 import kotlin.collections.map
 
 object OrderMapper {
-
+    // TODO: Finalizar implementação dos mapeamentos
     fun toCreateCommand(request: CreateOrderRequest, createdBy: UUID) =
         CreateOrderCommand(
             createdBy = createdBy,
-
+            paymentMethod = request.paymentMethod,
+            products = OrderProductMapper.toCreateCommand(request.products)
         )
 
     fun toUpdateCommand(request: UpdateOrderRequest, updatedBy: UUID) =
@@ -35,22 +35,22 @@ object OrderMapper {
     fun toResponse(order: Order): OrderResponse =
         OrderResponse(
             id = order.id,
-            orderStatus = TODO(),
-            totalAmount = TODO(),
-            paymentMethod = TODO(),
-            products = TODO(),
+            orderStatus = order.orderStatus.code,
+            totalAmount = order.totalAmount,
+            paymentMethod = order.paymentMethod.code,
+            products = OrderProductMapper.toResponse(order.products),
             createdAt = order.createdAt,
             updatedAt = order.updatedAt
         )
 
-    fun toResponsePaged(catehoriesPaged: Paged<Order>): Paged<OrderResponse> {
-        val orderResponses = catehoriesPaged.items.map { toResponse(it) }
+    fun toResponsePaged(orderPaged: Paged<Order>): Paged<OrderResponse> {
+        val orderResponses = orderPaged.items.map { toResponse(it) }
         return Paged(
             items = orderResponses,
-            page = catehoriesPaged.page,
-            pageSize = catehoriesPaged.pageSize,
-            totalItems = catehoriesPaged.totalItems,
-            totalPages = catehoriesPaged.totalPages
+            page = orderPaged.page,
+            pageSize = orderPaged.pageSize,
+            totalItems = orderPaged.totalItems,
+            totalPages = orderPaged.totalPages
         )
     }
 }
