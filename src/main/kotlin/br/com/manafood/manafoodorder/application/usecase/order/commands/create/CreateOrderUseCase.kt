@@ -9,12 +9,10 @@ import br.com.manafood.manafoodorder.domain.valueobject.OrderStatus
 import br.com.manafood.manafoodorder.domain.valueobject.PaymentMethod.Companion.fromCode
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataAccessException
-import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
-@Service
 class CreateOrderUseCase(
     private val orderRepository: OrderRepository,
     private val productValidationService: ProductValidationService,

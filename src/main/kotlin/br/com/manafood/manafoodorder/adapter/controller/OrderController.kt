@@ -1,9 +1,11 @@
 package br.com.manafood.manafoodorder.adapter.controller
 
 import br.com.manafood.manafoodorder.adapter.mapper.OrderMapper
+import br.com.manafood.manafoodorder.adapter.request.commands.confirmpayment.ConfirmPaymentRequest
 import br.com.manafood.manafoodorder.adapter.request.commands.create.CreateOrderRequest
 import br.com.manafood.manafoodorder.adapter.request.commands.update.UpdateOrderRequest
 import br.com.manafood.manafoodorder.adapter.response.OrderResponse
+import br.com.manafood.manafoodorder.application.usecase.order.commands.confirmpayment.ConfirmPaymentUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderUseCase
@@ -34,8 +36,8 @@ class OrderController(
     private val deleteOrderUseCase: DeleteOrderUseCase,
     private val getOrderByIdUseCase: GetOrderByIdUseCase,
     private val getAllOrdersUseCase: GetAllOrdersUseCase,
-    private val getOrdersReadyForKitchenUseCase: GetOrdersReadyForKitchenUseCase
-
+    private val getOrdersReadyForKitchenUseCase: GetOrdersReadyForKitchenUseCase,
+    private val confirmPaymentUseCase: ConfirmPaymentUseCase
 ) {
 
     @PostMapping
@@ -92,5 +94,16 @@ class OrderController(
     ): ResponseEntity<Paged<OrderResponse>> {
         val orders = getOrdersReadyForKitchenUseCase.execute(GetOrdersReadyForKitchenQuery(page, pageSize))
         return ResponseEntity.ok(OrderMapper.toResponsePaged(orders))
+    }
+
+    @PostMapping
+    fun confirmPayment(
+        @RequestBody request: ConfirmPaymentRequest
+    ): ResponseEntity<Void> {
+        val createdBy = UUID.randomUUID()
+        val command = OrderMapper.toConfirmPaymentCommand(request, createdBy)
+        confirmPaymentUseCase.execute(command)
+
+        return ResponseEntity.noContent().build()
     }
 }

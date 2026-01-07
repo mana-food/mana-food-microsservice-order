@@ -1,8 +1,10 @@
 package br.com.manafood.manafoodorder.adapter.mapper
 
+import br.com.manafood.manafoodorder.adapter.request.commands.confirmpayment.ConfirmPaymentRequest
 import br.com.manafood.manafoodorder.adapter.request.commands.create.CreateOrderRequest
 import br.com.manafood.manafoodorder.adapter.request.commands.update.UpdateOrderRequest
 import br.com.manafood.manafoodorder.adapter.response.OrderResponse
+import br.com.manafood.manafoodorder.application.usecase.order.commands.confirmpayment.ConfirmPaymentCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderCommand
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderCommand
@@ -12,7 +14,6 @@ import java.util.UUID
 import kotlin.collections.map
 
 object OrderMapper {
-    // TODO: Finalizar implementação dos mapeamentos
     fun toCreateCommand(request: CreateOrderRequest, createdBy: UUID) =
         CreateOrderCommand(
             createdBy = createdBy,
@@ -23,6 +24,7 @@ object OrderMapper {
     fun toUpdateCommand(request: UpdateOrderRequest, updatedBy: UUID) =
         UpdateOrderCommand(
             id = request.id,
+            orderStatus = request.orderStatus,
             updatedBy = updatedBy
         )
 
@@ -30,6 +32,14 @@ object OrderMapper {
         DeleteOrderCommand(
             id = id,
             deletedBy = deletedBy
+        )
+
+    fun toConfirmPaymentCommand(request: ConfirmPaymentRequest, confirmedBy: UUID) =
+        ConfirmPaymentCommand(
+            orderId = request.orderId,
+            paymentStatus = request.paymentStatus,
+            paymentId = request.paymentStatus,
+            updatedBy = confirmedBy
         )
 
     fun toResponse(order: Order): OrderResponse =

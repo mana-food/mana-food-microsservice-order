@@ -2,6 +2,7 @@ package br.com.manafood.manafoodorder.infrastructure.config
 
 import br.com.manafood.manafoodorder.application.factory.OrderProductFactory
 import br.com.manafood.manafoodorder.application.service.ProductValidationService
+import br.com.manafood.manafoodorder.application.usecase.order.commands.confirmpayment.ConfirmPaymentUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.create.CreateOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.DeleteOrderUseCase
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderUseCase
@@ -47,5 +48,10 @@ class OrderUseCaseConfig(
     @Bean
     fun getOrdersReadyForKitchenUseCase(): GetOrdersReadyForKitchenUseCase {
         return GetOrdersReadyForKitchenUseCase(orderRepository)
+    }
+
+    @Bean
+    fun confirmPaymentUseCase(): ConfirmPaymentUseCase {
+        return ConfirmPaymentUseCase(orderRepository)
     }
 }

@@ -11,7 +11,7 @@ data class Order(
     override val id: UUID,
     override val createdBy: UUID,
     override val createdAt: LocalDateTime = LocalDateTime.now(),
-    override val updatedBy: UUID? = null,
+    override var updatedBy: UUID? = null,
     override val updatedAt: LocalDateTime? = null,
     override val deleted: Boolean = false,
     val orderConfirmationTime: LocalDateTime?,
@@ -35,7 +35,7 @@ data class Order(
         return copy(
             orderStatus = status,
             updatedAt = updatedAt,
-            orderConfirmationTime = if (status == OrderStatus.RECEIVED) LocalDateTime.now() else orderConfirmationTime
+            orderConfirmationTime = LocalDateTime.now()
         )
     }
 }
