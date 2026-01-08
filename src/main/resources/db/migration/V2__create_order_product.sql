@@ -14,5 +14,5 @@ CREATE TABLE order_product
     deleted      BOOLEAN        NOT NULL DEFAULT FALSE,
 
     CONSTRAINT fk_order_product_order
-        FOREIGN KEY (order_id) REFERENCES orders (id)
+        FOREIGN KEY (order_id) REFERENCES `order` (id)
 );

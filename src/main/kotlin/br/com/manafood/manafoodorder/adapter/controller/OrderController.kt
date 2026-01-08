@@ -96,7 +96,7 @@ class OrderController(
         return ResponseEntity.ok(OrderMapper.toResponsePaged(orders))
     }
 
-    @PostMapping
+    @PostMapping("/confirm-payment")
     fun confirmPayment(
         @RequestBody request: ConfirmPaymentRequest
     ): ResponseEntity<Void> {

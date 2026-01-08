@@ -16,8 +16,8 @@ data class OrderProduct(
     val productId: UUID, 
     val productName: String,  
     val unitPrice: BigDecimal,
-    val quantity: BigDecimal,
-    val subtotal: BigDecimal = unitPrice * quantity
+    val quantity: Int,
+    val subtotal: BigDecimal = unitPrice * quantity.toDouble().toBigDecimal()
 ) : BaseEntity(
     id = id,
     createdBy = createdBy,

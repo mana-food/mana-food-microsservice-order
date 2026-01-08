@@ -29,7 +29,7 @@ class OrderProductJpaEntity(
     val unitPrice: BigDecimal,
 
     @Column(nullable = false, name = "quantity")
-    val quantity: BigDecimal,
+    val quantity: Int,
 
     @Column(nullable = false, name = "subtotal")
     val subtotal: BigDecimal,

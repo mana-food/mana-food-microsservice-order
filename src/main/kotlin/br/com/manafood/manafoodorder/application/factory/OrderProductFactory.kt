@@ -28,7 +28,7 @@ class OrderProductFactory {
             productName = product.name,
             unitPrice = product.unitPrice,
             quantity = request.quantity,
-            subtotal = product.unitPrice * request.quantity
+            subtotal = product.unitPrice * request.quantity.toDouble().toBigDecimal()
         )
     }
 }
