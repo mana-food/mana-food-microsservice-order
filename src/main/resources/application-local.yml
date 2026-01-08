@@ -1,11 +1,14 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: manafoodorder
 
   datasource:
-    url: jdbc:mysql://localhost:3307/db_manafood_order?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3308/manafood_order?useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: senha123
+    password: root123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
@@ -21,6 +24,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+    naming:
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    globally_quoted_identifiers: true
+
 
 # Logging para desenvolvimento
 logging:
@@ -38,6 +45,13 @@ management:
     health:
       show-details: always
 
-product:
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+manafoodproduct:
   service:
     url: http://localhost:8081
