@@ -91,17 +91,16 @@ class ConfirmPaymentUseCaseTest {
             products = emptyList()
         )
 
-        val orderSlot = slot<Order>()
         every { orderRepository.findById(orderId) } returns order
-        every { orderRepository.save(capture(orderSlot)) } answers { orderSlot.captured }
 
-        // When
-        confirmPaymentUseCase.execute(command)
+        // When & Then
+        val exception = assertThrows<Exception> {
+            confirmPaymentUseCase.execute(command)
+        }
 
-        // Then
-        verify(exactly = 1) { orderRepository.save(any()) }
-        assertEquals(OrderStatus.REJECTED, orderSlot.captured.orderStatus)
-        assertNull(orderSlot.captured.orderConfirmationTime)
+        assertTrue(exception.message!!.contains("Falha ao tentar confirmar o pagamento"))
+        verify(exactly = 1) { orderRepository.findById(orderId) }
+        verify(exactly = 0) { orderRepository.save(any()) }
     }
 
     @Test
@@ -118,9 +117,11 @@ class ConfirmPaymentUseCaseTest {
         every { orderRepository.findById(orderId) } returns null
 
         // When & Then
-        assertThrows<IllegalArgumentException> {
+        val exception = assertThrows<Exception> {
             confirmPaymentUseCase.execute(command)
         }
+
+        assertTrue(exception.message!!.contains("Falha ao tentar confirmar o pagamento"))
         verify(exactly = 1) { orderRepository.findById(orderId) }
         verify(exactly = 0) { orderRepository.save(any()) }
     }
