@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>br.com.manafood</groupId>
-	<artifactId>ManaFoodOrder</artifactId>
+	<artifactId>mana-food-microsservice-order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ManaFoodOrder</name>
-	<description>ManaFoodOrder</description>
+	<name>mana-food-microsservice-order</name>
+	<description>mana-food-microsservice-order</description>
 	<url/>
 	<licenses>
 		<license/>
