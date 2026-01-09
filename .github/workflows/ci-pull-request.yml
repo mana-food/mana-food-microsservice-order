@@ -51,11 +51,11 @@ jobs:
           echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
 
       - name: Subir banco de dados MySQL via Docker Compose
-        run: docker compose up -d db-mana-food-product
+        run: docker compose up -d db-mana-food-order
 
       - name: Aguardar banco de dados estar pronto
         run: |
-          timeout 60 bash -c 'until docker compose exec -T db-mana-food-product mysqladmin ping -h localhost -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; do echo "Aguardando MySQL..."; sleep 3; done'
+          timeout 60 bash -c 'until docker compose exec -T db-mana-food-order mysqladmin ping -h localhost -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; do echo "Aguardando MySQL..."; sleep 3; done'
           echo "MySQL está pronto!"
 
       - name: Cache SonarQube packages
