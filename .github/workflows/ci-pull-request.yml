@@ -83,18 +83,11 @@ jobs:
           # Executa build + testes com cobertura JaCoCo
           mvn -B -ntp clean verify
           
-          # Executa a análise Sonar via plugin Maven
-          # Configurado para analisar TODO o código do projeto
+          # Executa a análise Sonar via plugin Maven (usa propriedades do pom.xml)
           mvn -B -ntp sonar:sonar \
-            -Dsonar.host.url="$SONAR_HOST_URL" \
-            -Dsonar.login="$SONAR_TOKEN" \
-            -Dsonar.projectKey="mana-food_mana-food-microsservice-order" \
-            -Dsonar.organization="mana-food" \
-            -Dsonar.branch.name="${{ github.head_ref }}" \
+            -Dsonar.token="$SONAR_TOKEN" \
             -Dsonar.exclusions="**/target/**,**/*.class" \
-            -Dsonar.coverage.jacoco.xmlReportPaths="target/site/jacoco/jacoco.xml" \
-            -Dsonar.qualitygate.wait=true \
-            -Dsonar.newCode.referenceBranch=main
+            -Dsonar.coverage.jacoco.xmlReportPaths="target/site/jacoco/jacoco.xml"
 
       - name: Parar e remover containers
         if: always()
