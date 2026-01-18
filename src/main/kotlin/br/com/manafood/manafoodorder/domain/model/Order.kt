@@ -12,7 +12,7 @@ data class Order(
     override val createdBy: UUID,
     override val createdAt: LocalDateTime = LocalDateTime.now(),
     override var updatedBy: UUID? = null,
-    override val updatedAt: LocalDateTime? = null,
+    override var updatedAt: LocalDateTime? = null,
     override val deleted: Boolean = false,
     val orderConfirmationTime: LocalDateTime?,
     val orderStatus: OrderStatus,

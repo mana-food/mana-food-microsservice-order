@@ -32,10 +32,12 @@ class UpdateOrderUseCaseTest {
         // Given
         val orderId = UUID.randomUUID()
         val updatedBy = UUID.randomUUID()
+        val updatedAt = LocalDateTime.now()
         val command = UpdateOrderCommand(
             id = orderId,
             orderStatus = 2,
-            updatedBy = updatedBy
+            updatedBy = updatedBy,
+            updatedAt = updatedAt
         )
 
         val existingOrder = Order(
@@ -71,10 +73,12 @@ class UpdateOrderUseCaseTest {
     fun `should throw exception when order not found`() {
         // Given
         val orderId = UUID.randomUUID()
+        val updatedAt = LocalDateTime.now()
         val command = UpdateOrderCommand(
             id = orderId,
             orderStatus = 2,
-            updatedBy = UUID.randomUUID()
+            updatedBy = UUID.randomUUID(),
+            updatedAt = updatedAt
         )
 
         every { orderRepository.findById(orderId) } returns null
@@ -92,10 +96,12 @@ class UpdateOrderUseCaseTest {
     fun `should throw exception when repository save fails`() {
         // Given
         val orderId = UUID.randomUUID()
+        val updatedAt = LocalDateTime.now()
         val command = UpdateOrderCommand(
             id = orderId,
             orderStatus = 3,
-            updatedBy = UUID.randomUUID()
+            updatedBy = UUID.randomUUID(),
+            updatedAt = updatedAt
         )
 
         val existingOrder = Order(
@@ -126,10 +132,12 @@ class UpdateOrderUseCaseTest {
     fun `should update order to PREPARING status`() {
         // Given
         val orderId = UUID.randomUUID()
+        val updatedAt = LocalDateTime.now()
         val command = UpdateOrderCommand(
             id = orderId,
             orderStatus = 3,
-            updatedBy = UUID.randomUUID()
+            updatedBy = UUID.randomUUID(),
+            updatedAt = updatedAt
         )
 
         val existingOrder = Order(

@@ -20,6 +20,7 @@ class ConfirmPaymentUseCase(
             }
 
             orderFinded.updatedBy = command.updatedBy
+            orderFinded.updatedAt = command.updatedAt
             orderRepository.save(orderFinded.setStatus(OrderStatus.RECEIVED))
             logger.info("$PREFIX Pagamento confirmado com sucesso para o pedido: ${command.orderId}")
         } catch (ex: Exception) {

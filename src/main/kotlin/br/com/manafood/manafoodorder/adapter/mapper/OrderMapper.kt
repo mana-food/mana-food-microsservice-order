@@ -10,6 +10,7 @@ import br.com.manafood.manafoodorder.application.usecase.order.commands.delete.D
 import br.com.manafood.manafoodorder.application.usecase.order.commands.update.UpdateOrderCommand
 import br.com.manafood.manafoodorder.domain.common.Paged
 import br.com.manafood.manafoodorder.domain.model.Order
+import java.time.LocalDateTime
 import java.util.UUID
 import kotlin.collections.map
 
@@ -21,25 +22,28 @@ object OrderMapper {
             products = OrderProductMapper.toCreateCommandList(request.products)
         )
 
-    fun toUpdateCommand(request: UpdateOrderRequest, updatedBy: UUID) =
+    fun toUpdateCommand(request: UpdateOrderRequest, updatedBy: UUID, updatedAt: LocalDateTime) =
         UpdateOrderCommand(
             id = request.id,
             orderStatus = request.orderStatus,
-            updatedBy = updatedBy
+            updatedBy = updatedBy,
+            updatedAt = updatedAt
         )
 
-    fun toDeleteCommand(id: UUID, deletedBy: UUID) =
+    fun toDeleteCommand(id: UUID, deletedBy: UUID, deletedAt: LocalDateTime) =
         DeleteOrderCommand(
             id = id,
-            deletedBy = deletedBy
+            deletedBy = deletedBy,
+            deletedAt = deletedAt
         )
 
-    fun toConfirmPaymentCommand(request: ConfirmPaymentRequest, confirmedBy: UUID) =
+    fun toConfirmPaymentCommand(request: ConfirmPaymentRequest, confirmedBy: UUID, createdAt: LocalDateTime) =
         ConfirmPaymentCommand(
             orderId = request.orderId,
             paymentStatus = request.paymentStatus,
             paymentId = request.paymentStatus,
-            updatedBy = confirmedBy
+            updatedBy = confirmedBy,
+            updatedAt = createdAt
         )
 
     fun toResponse(order: Order): OrderResponse =

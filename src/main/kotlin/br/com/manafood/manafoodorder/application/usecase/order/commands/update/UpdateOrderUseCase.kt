@@ -20,7 +20,9 @@ class UpdateOrderUseCase(
         }
 
         val order = orderFinded.copy(
-            orderStatus = fromCode(command.orderStatus)
+            orderStatus = fromCode(command.orderStatus),
+            updatedBy = command.updatedBy,
+            updatedAt = command.updatedAt
         )
 
         try {

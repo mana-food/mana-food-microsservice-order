@@ -44,13 +44,14 @@ class OrderMapperTest {
         // Given
         val orderId = UUID.randomUUID()
         val updatedBy = UUID.randomUUID()
+        val updatedAt = LocalDateTime.now()
         val request = UpdateOrderRequest(
             id = orderId,
             orderStatus = 2
         )
 
         // When
-        val command = OrderMapper.toUpdateCommand(request, updatedBy)
+        val command = OrderMapper.toUpdateCommand(request, updatedBy, updatedAt)
 
         // Then
         assertEquals(orderId, command.id)
@@ -63,9 +64,10 @@ class OrderMapperTest {
         // Given
         val orderId = UUID.randomUUID()
         val deletedBy = UUID.randomUUID()
+        val deletedAt = LocalDateTime.now()
 
         // When
-        val command = OrderMapper.toDeleteCommand(orderId, deletedBy)
+        val command = OrderMapper.toDeleteCommand(orderId, deletedBy, deletedAt)
 
         // Then
         assertEquals(orderId, command.id)
@@ -77,6 +79,7 @@ class OrderMapperTest {
         // Given
         val orderId = UUID.randomUUID()
         val confirmedBy = UUID.randomUUID()
+        val deletedAt = LocalDateTime.now()
         val request = ConfirmPaymentRequest(
             orderId = orderId,
             paymentStatus = "approved",
@@ -84,7 +87,7 @@ class OrderMapperTest {
         )
 
         // When
-        val command = OrderMapper.toConfirmPaymentCommand(request, confirmedBy)
+        val command = OrderMapper.toConfirmPaymentCommand(request, confirmedBy, deletedAt)
 
         // Then
         assertEquals(orderId, command.orderId)
