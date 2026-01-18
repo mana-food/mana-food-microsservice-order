@@ -46,7 +46,7 @@ Funcionalidade: Gerenciamento de Pedidos
     Dado que existem pedidos com status RECEIVED no sistema
     E que existem pedidos com status CREATED no sistema
     Quando eu consultar pedidos prontos para cozinha
-    Então apenas pedidos com status RECEIVED devem ser retornados
+    Então apenas pedidos com status READY devem ser retornados
 
   Cenário: Confirmar pagamento do pedido
     Dado que existe um pedido no sistema com status CREATED

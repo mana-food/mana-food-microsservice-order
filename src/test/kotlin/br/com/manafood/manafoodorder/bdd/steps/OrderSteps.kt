@@ -451,11 +451,11 @@ class OrderSteps {
         assertThat(testContext.lastPagedResponse?.totalPages).isEqualTo(totalPaginas)
     }
 
-    @Então("apenas pedidos com status RECEIVED devem ser retornados")
-    fun apenasPedidosComStatusReceivedDevemSerRetornados() {
+    @Então("apenas pedidos com status READY devem ser retornados")
+    fun apenasPedidosComStatusReadyDevemSerRetornados() {
         assertThat(testContext.lastPagedResponse?.items).isNotEmpty()
         testContext.lastPagedResponse?.items?.forEach { order ->
-            assertThat(order.orderStatus).isEqualTo(2) // RECEIVED
+            assertThat(order.orderStatus).isEqualTo(4) // READY
         }
     }
 
