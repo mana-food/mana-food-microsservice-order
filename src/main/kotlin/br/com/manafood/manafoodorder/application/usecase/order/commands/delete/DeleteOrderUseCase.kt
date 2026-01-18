@@ -17,7 +17,8 @@ class DeleteOrderUseCase(
 
         val deleted = orderFinded.copy(
             deleted = true,
-            updatedBy = command.deletedBy
+            updatedBy = command.deletedBy,
+            updatedAt = command.deletedAt
         )
 
         try {

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 import java.util.UUID
 
 @RestController
@@ -56,7 +57,8 @@ class OrderController(
         @RequestBody request: UpdateOrderRequest
     ): ResponseEntity<OrderResponse> {
         val updatedBy = UUID.randomUUID()
-        val command = OrderMapper.toUpdateCommand(request, updatedBy)
+        val updatedAt = LocalDateTime.now()
+        val command = OrderMapper.toUpdateCommand(request, updatedBy, updatedAt)
         val order = updateOrderUseCase.execute(command)
 
         return ResponseEntity.ok(OrderMapper.toResponse(order))
@@ -65,7 +67,8 @@ class OrderController(
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
         val deletedBy = UUID.randomUUID()
-        val command = OrderMapper.toDeleteCommand(id, deletedBy)
+        val deletedAt = LocalDateTime.now()
+        val command = OrderMapper.toDeleteCommand(id, deletedBy, deletedAt)
         deleteOrderUseCase.execute(command)
 
         return ResponseEntity.noContent().build()
@@ -101,7 +104,8 @@ class OrderController(
         @RequestBody request: ConfirmPaymentRequest
     ): ResponseEntity<Void> {
         val createdBy = UUID.randomUUID()
-        val command = OrderMapper.toConfirmPaymentCommand(request, createdBy)
+        val createdAt = LocalDateTime.now()
+        val command = OrderMapper.toConfirmPaymentCommand(request, createdBy, createdAt)
         confirmPaymentUseCase.execute(command)
 
         return ResponseEntity.noContent().build()

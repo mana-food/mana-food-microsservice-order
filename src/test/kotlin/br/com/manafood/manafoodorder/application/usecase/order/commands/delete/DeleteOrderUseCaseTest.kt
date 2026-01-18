@@ -33,7 +33,8 @@ class DeleteOrderUseCaseTest {
         // Given
         val orderId = UUID.randomUUID()
         val deletedBy = UUID.randomUUID()
-        val command = DeleteOrderCommand(id = orderId, deletedBy = deletedBy)
+        val deletedAt = LocalDateTime.now()
+        val command = DeleteOrderCommand(id = orderId, deletedBy = deletedBy, deletedAt = deletedAt)
 
         val existingOrder = Order(
             id = orderId,
@@ -67,7 +68,8 @@ class DeleteOrderUseCaseTest {
     fun `should throw exception when order not found`() {
         // Given
         val orderId = UUID.randomUUID()
-        val command = DeleteOrderCommand(id = orderId, deletedBy = UUID.randomUUID())
+        val deletedAt = LocalDateTime.now()
+        val command = DeleteOrderCommand(id = orderId, deletedBy = UUID.randomUUID(), deletedAt = deletedAt)
 
         every { orderRepository.findById(orderId) } returns null
 

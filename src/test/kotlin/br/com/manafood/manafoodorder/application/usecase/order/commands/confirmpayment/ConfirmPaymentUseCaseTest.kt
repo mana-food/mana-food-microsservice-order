@@ -35,7 +35,8 @@ class ConfirmPaymentUseCaseTest {
             orderId = orderId,
             paymentStatus = "approved",
             updatedBy = UUID.randomUUID(),
-            paymentId = "payment-123"
+            paymentId = "payment-123",
+            updatedAt = LocalDateTime.now()
         )
 
         val order = Order(
@@ -74,7 +75,8 @@ class ConfirmPaymentUseCaseTest {
             orderId = orderId,
             paymentStatus = "rejected",
             updatedBy = UUID.randomUUID(),
-            paymentId = "payment-456"
+            paymentId = "payment-456",
+            updatedAt = LocalDateTime.now()
         )
 
         val order = Order(
@@ -111,7 +113,8 @@ class ConfirmPaymentUseCaseTest {
             orderId = orderId,
             paymentStatus = "approved",
             updatedBy = UUID.randomUUID(),
-            paymentId = "payment-789"
+            paymentId = "payment-789",
+            updatedAt = LocalDateTime.now()
         )
 
         every { orderRepository.findById(orderId) } returns null
