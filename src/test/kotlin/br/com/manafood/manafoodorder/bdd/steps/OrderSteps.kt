@@ -131,7 +131,8 @@ class OrderSteps {
     @Dado("que existe um pedido no sistema com status RECEIVED")
     fun queExisteUmPedidoNoSistemaComStatusReceived() {
         queExisteUmPedidoNoSistema()
-        assertThat(testContext.lastOrderResponse?.orderStatus).isEqualTo(1) // RECEIVED
+        euAtualizarOStatusDoPedidoParaReceived()
+        assertThat(testContext.lastOrderResponse?.orderStatus).isEqualTo(2) // RECEIVED
     }
 
     @Quando("eu atualizar o status do pedido para RECEIVED")
@@ -269,6 +270,13 @@ class OrderSteps {
         euAtualizarOStatusDoPedidoParaReceived()
     }
 
+    @Dado("que existem pedidos com status READY no sistema")
+    fun queExistemPedidosComStatusReadyNoSistema() {
+        queExistemProdutosValidosNoSistema()
+        euCriarUmPedidoComMetodoDePagamentoQRCode()
+        euAtualizarOStatusDoPedidoParaReady()
+    }
+
     @Dado("que existem pedidos com status CREATED no sistema")
     fun queExistemPedidosComStatusCreatedNoSistema() {
         queExistemProdutosValidosNoSistema()
@@ -307,11 +315,19 @@ class OrderSteps {
             val response = restTemplate.postForEntity(
                 "/api/order/confirm-payment",
                 confirmPaymentRequest,
-                OrderResponse::class.java
+                Void::class.java
             )
             testContext.lastResponseEntity = response
-            if (response.statusCode == HttpStatus.OK && response.body != null) {
-                testContext.lastOrderResponse = response.body
+
+            // Após confirmar pagamento, buscar o pedido atualizado
+            if (response.statusCode == HttpStatus.NO_CONTENT) {
+                val orderResponse = restTemplate.getForEntity(
+                    "/api/order/$orderId",
+                    OrderResponse::class.java
+                )
+                if (orderResponse.statusCode == HttpStatus.OK && orderResponse.body != null) {
+                    testContext.lastOrderResponse = orderResponse.body
+                }
             }
         } catch (e: Exception) {
             testContext.lastException = e

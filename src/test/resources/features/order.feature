@@ -43,7 +43,7 @@ Funcionalidade: Gerenciamento de Pedidos
     E o total de páginas deve ser 2
 
   Cenário: Consultar pedidos prontos para cozinha
-    Dado que existem pedidos com status RECEIVED no sistema
+    Dado que existem pedidos com status READY no sistema
     E que existem pedidos com status CREATED no sistema
     Quando eu consultar pedidos prontos para cozinha
     Então apenas pedidos com status READY devem ser retornados
