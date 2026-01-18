@@ -8,8 +8,8 @@ import java.util.UUID
 
 
 @FeignClient(
-    name = "manafoodproduct-service",
-    url = "\${manafoodproduct.service.url}"
+    name = "product-service",
+    url = "\${PRODUCT_SERVICE_URL}"
 )
 interface ProductFeignClient {
 
